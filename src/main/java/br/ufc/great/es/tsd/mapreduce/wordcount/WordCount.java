@@ -1,6 +1,7 @@
 package br.ufc.great.es.tsd.mapreduce.wordcount;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import org.apache.hadoop.conf.Configuration;
@@ -21,11 +22,12 @@ public class WordCount {
 		
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException{
 			StringTokenizer itr = new StringTokenizer(value.toString());
-			
+			System.out.println("Init Wordcout Mapper");
 			while(itr.hasMoreTokens()) {
 				word.set(itr.nextToken());
 				context.write(word, one);
 			}
+			System.out.println("Finish Wordcout Mapper");
 		}
 	}
 	
@@ -34,15 +36,21 @@ public class WordCount {
 		
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 			int sum=0;
-			for (IntWritable val : values) {
-				sum += val.get();
+			System.out.println("Init Reducer");
+			
+			Iterator<IntWritable> itr= values.iterator();
+			
+			while (itr.hasNext()){
+				sum  += itr.next().get();
 			}
+			
 			result.set(sum);
 			context.write(key, result);
+			System.out.println("Seting result from Reducer");
 		}
 	}
 
-	public static void main(String args[]) throws Exception{
+	public static void main(String[] args) throws Exception{
 		Configuration conf = new Configuration();
 		
 		Job job = Job.getInstance(conf, "word count");
