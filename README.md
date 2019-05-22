@@ -7,9 +7,11 @@ Features
 
 Roteiro de execução
 ---
+Faça a configuração do Cluster do Hadoop com 3 nós usando containers Docker disponível em https://github.com/topicos-sistemas-distribuidos/hadoop-cluster-docker
+
 1. Vá até o nó master do hadoop. 
 
-Obs: Inicie o hdfs e o yarn.  
+Obs: Inicie o hdfs e o yarn. É preciso garantir que o nó master tenha instalado o git, o maven e um editor de texto.  
 
 2. Execute um maven clean
 ```
